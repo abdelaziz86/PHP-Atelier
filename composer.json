@@ -17,6 +17,11 @@
         "phpunit/phpunit": "^12.2"
     },
     "scripts": {
+        "check": [
+            "@lint",
+            "@analyse",
+            "@test"
+        ],
         "lint": "php-cs-fixer fix --dry-run --allow-risky=yes",
         "analyse": "phpstan analyse",
         "test": "phpunit"
