@@ -1,0 +1,25 @@
+{
+    "name": "abdelaziz/mon-projet",
+    "autoload": {
+        "psr-4": {
+            "Abdelaziz\\MonProjet\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "abdelaziz86",
+            "email": "62603535+abdelaziz86@users.noreply.github.com"
+        }
+    ],
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.76",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.2"
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix --dry-run",
+        "analyse": "phpstan analyse",
+        "test": "phpunit"
+   }
+
+}

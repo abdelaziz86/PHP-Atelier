@@ -1,0 +1,48 @@
+# Workflow name that will appear in GitHub's "Actions" tab
+name: PHP Quality Assurance
+
+# Triggers: When should this workflow run?
+on:
+  push:
+    branches: [ "main" ] # On every push to the 'main' branch
+  pull_request:
+    branches: [ "main" ] # On every PR creation/update targeting 'main'
+
+# Jobs: Tasks to execute. A workflow can have multiple jobs.
+jobs:
+  # We name our job "build" (conventional but customizable)
+  build:
+    # Virtual machine: What type of runner this job will use
+    runs-on: ubuntu-latest # Using a recent Ubuntu Linux runner
+
+    # Steps: List of sequential actions to execute
+    steps:
+      # 1. Checkout repository code
+      # "uses" indicates we're using a community action
+      # "actions/checkout@v3" is the official GitHub action for cloning repos
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Install PHP and Composer
+      # "shivammathur/setup-php" is the most popular PHP setup action
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with: # Configuration options for the action
+          php-version: '8.3'
+          tools: composer:v2 # Also install Composer v2
+
+      # 3. Install project dependencies
+      # "run" executes shell commands on the runner
+      # Using 'composer install' for deterministic installation from lock file
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      # 4. Run linter (PHP-CS-Fixer)
+      # Executes the same script we tested locally
+      - name: Run Linter (PHP-CS-Fixer)
+        run: composer lint
+
+      # 5. Run static analysis (PHPStan)
+      # Reuses our local script for consistency
+      - name: Run Static Analysis (PHPStan)
+        run: composer analyse
